@@ -10,7 +10,7 @@ import base64
 import json
 
 # Model parameters
-hidden_size = 660 #last model saved requirement
+hidden_size = 1660 #last model saved requirement
 learning_rate = 0.1
 epochs = 15
 generate_length = 10
@@ -386,6 +386,7 @@ while True:
     input("Press enter to continue...")
     user_input = prices[0]
     response = chat(model, user_input, generate_length, n)
+    print("Current price:",user_input)
     print(f"AI: {response}")
     symbol = "BTC_USDT"
     limitB = 100
