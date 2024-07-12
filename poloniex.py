@@ -1,4 +1,4 @@
-# Poloniex bot v0.3 - George W - 2024
+# Poloniex bot v0.4 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -384,7 +384,7 @@ if (_choice_ == "l"):
 # Example usage
 while True:
     input("Press enter to continue...")
-    user_input = prices[-1]
+    user_input = prices[0]
     response = chat(model, user_input, generate_length, n)
     print(f"AI: {response}")
     symbol = "BTC_USDT"
