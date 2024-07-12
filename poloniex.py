@@ -1,4 +1,4 @@
-# Poloniex bot v0.2 - George W - 2024
+# Poloniex bot v0.3 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -23,6 +23,7 @@ secret_key = ""
 
 symbol = "BTC_USDT"
 quantity = 10
+amount = 0.0001
 limit_TH = 1000
 class SDK:
 
@@ -95,7 +96,7 @@ class SDK:
             "side": side,
             "timeInForce": "GTC",
             "price": str(price),
-            "amount": str(quantity),
+            "amount": str(amount),
             "quantity": str(quantity),
             "clientOrderId": "",
         }
