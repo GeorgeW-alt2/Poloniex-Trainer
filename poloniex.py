@@ -1,4 +1,4 @@
-# Poloniex bot v0.1 - George W - 2024
+# Poloniex bot v0.2 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -22,7 +22,7 @@ access_key = ""
 secret_key = ""
 
 symbol = "BTC_USDT"
-
+quantity = 10
 limit_TH = 1000
 class SDK:
 
@@ -102,7 +102,7 @@ class SDK:
         headers = {"Content-Type": "application/json"}
         response = self.sign_req(host, path, method, params, headers)
         print(f"Order {side} placed at price {price}")
-
+        print(response)
         return response
 
     def get_trade_history(self, host, symbol, limit):
@@ -144,7 +144,7 @@ def auto_trade(symbol, limit):
 
         # Implement your order placement logic here
         # Example:
-        # place_order(symbol, "buy", lowest_valley_price, quantity)
+        service.place_order(symbol, "buy", lowest_valley_price, quantity)
 
     if peaks:
         # Example sell logic - place a sell order at the highest peak price
@@ -154,7 +154,7 @@ def auto_trade(symbol, limit):
 
         # Implement your order placement logic here
         # Example:
-        # place_order(symbol, "sell", highest_peak_price, quantity)
+        service.place_order(symbol, "sell", highest_peak_price, quantity)
 
 if __name__ == "__main__":
 
