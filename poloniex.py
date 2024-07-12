@@ -1,4 +1,4 @@
-# Poloniex bot v0.4 - George W - 2024
+# Poloniex bot v0.5 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -24,7 +24,7 @@ secret_key = ""
 symbol = "BTC_USDT"
 quantity = 10
 amount = 0.0001
-limit_TH = 1000
+limit_trade_history = 1000
 class SDK:
 
     def __init__(self, access_key, secret_key):
@@ -164,7 +164,7 @@ if __name__ == "__main__":
     service = SDK(access_key, secret_key)
 
     # Example: get trade history
-    prices = service.get_trade_history(host, symbol, limit_TH)
+    prices = service.get_trade_history(host, symbol, limit_trade_history)
 
 #Neural network segment
 
@@ -391,5 +391,6 @@ while True:
     symbol = "BTC_USDT"
     limitB = 100
     auto_trade(symbol, limitB)
+    prices = service.get_trade_history(host, symbol, limit_trade_history)
     print()
 
