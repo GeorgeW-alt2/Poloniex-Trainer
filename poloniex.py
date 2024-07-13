@@ -1,4 +1,4 @@
-# Poloniex bot v0.7 - George W - 2024
+# Poloniex bot v0.8 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -223,7 +223,6 @@ class SimpleChatbotNN:
 
         # Apply attention
         context_vector = self.attention(self.hidden_activation)
-        context_vector = precision_shift( context_vector, int(np.sum(x)))
 
         self.output = np.dot(context_vector, self.W2) + self.b2
         self.output_probs = np.exp(self.output) / np.sum(np.exp(self.output), axis=-1, keepdims=True)
