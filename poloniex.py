@@ -1,4 +1,4 @@
-# Poloniex bot v0.5 - George W - 2024
+# Poloniex bot v0.6 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -10,7 +10,7 @@ import base64
 import json
 
 # Model parameters
-hidden_size = 1660 #last model saved requirement
+hidden_size = 660 #last model saved requirement
 learning_rate = 0.1
 epochs = 15
 generate_length = 10
@@ -18,8 +18,8 @@ padding_token = '<unk>'
 model_file = "model.dat"
 n = 3
 
-access_key = ""
-secret_key = ""
+access_key = "XMB31DWZ-G8POMUFE-94KUXHVN-4TJCYF6K"
+secret_key = "af586dc29fcfa4678cb3993329721558b27eae47a4a15057ad822f35296f66ec78a4ef65501e81a3ac5ee2a5ec1e903e0db1c9b24c44dd11eaccd872992ea0db"
 
 symbol = "BTC_USDT"
 quantity = 10
@@ -308,7 +308,6 @@ def chat(model, question, generate_length, n):
 
         rng = np.random.default_rng()
         predicted_idx = rng.choice(range(len(inverted_probabilities)), p=roll_encoded_sentence(inverted_probabilities))
-        input_seq = precision_shift(input_seq, predicted_idx)
         if predicted_idx + 1 in idx_to_word:  # Adjust index to start from 0
             output.append(idx_to_word[predicted_idx + 1])
         else:
@@ -316,6 +315,7 @@ def chat(model, question, generate_length, n):
 
         last_ngram = output[-1].split()[-(n-1):]
         new_ngram = ' '.join(last_ngram + [idx_to_word[predicted_idx + 1]])  # Adjust index to start from 0
+        input_seq = encode_sentence(new_ngram, word_to_idx, n)[:, np.newaxis].T
 
     return ' '.join(output)
 
@@ -387,7 +387,6 @@ while True:
     user_input = prices[0]
     response = chat(model, user_input, generate_length, n)
     print("Current price:",user_input)
-    print(f"AI: {response}")
     symbol = "BTC_USDT"
     limitB = 100
     auto_trade(symbol, limitB)
