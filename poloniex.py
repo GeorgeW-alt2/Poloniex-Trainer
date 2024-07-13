@@ -1,4 +1,4 @@
-# Poloniex bot v0.8 - George W - 2024
+# Poloniex bot v0.9 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -312,9 +312,7 @@ def chat(model, question, generate_length, n):
         else:
             output.append(padding_token)
 
-        last_ngram = output[-1].split()[-(n-1):]
-        new_ngram = ' '.join(last_ngram + [idx_to_word[predicted_idx + 1]])  # Adjust index to start from 0
-        input_seq = encode_sentence(new_ngram, word_to_idx, n)[:, np.newaxis].T
+        input_seq = encode_sentence(' '.join(output), word_to_idx, n)[:, np.newaxis].T
 
     return ' '.join(output)
 
