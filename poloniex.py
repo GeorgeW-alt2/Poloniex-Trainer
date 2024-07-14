@@ -1,4 +1,4 @@
-# Poloniex bot v0.96 - George W - 2024
+# Poloniex bot v0.98 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -31,8 +31,8 @@ padding_token = '<unk>'
 model_file = "model.dat"
 n = 3
 
-access_key = "MTJFFVHR-IV51FBEU-HC5CIL23-SQ41HD0X"
-secret_key = "6016f19cf8b9f4d85b99533127c1f896bfc553bd3e1070ffe39420ae28fb7268d7ed0e5ada9d2e06674c51c797762b66a624cb6f1be06815f74be73ef578503f"
+access_key = ""
+secret_key = ""
 
 symbol = "BTC_USDT"
 quantity = 5
