@@ -1,4 +1,4 @@
-# Poloniex bot v0.98 - George W - 2024
+# Poloniex guide v0.98 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -35,8 +35,8 @@ access_key = ""
 secret_key = ""
 
 symbol = "BTC_USDT"
-quantity = 5
-amount = 0.000005
+quantity = 10
+amount = 0.000001
 limit_trade_history = 1000
 amount = convert_scientific_to_float(str(amount))
 class SDK:
@@ -159,21 +159,21 @@ def auto_trade(symbol, limit):
         # Example buy logic - place a buy order at the lowest valley price
         lowest_valley_index = valleys[0]
         lowest_valley_price = prices[lowest_valley_index]
-        print(f"Buying at {lowest_valley_price}")
+        print(f"Buy at {lowest_valley_price}")
 
         # Implement your order placement logic here
         # Example:
-        service.place_order(symbol, "buy", lowest_valley_price, quantity)
+        #service.place_order(symbol, "buy", lowest_valley_price, quantity)
 
     if peaks:
         # Example sell logic - place a sell order at the highest peak price
         highest_peak_index = peaks[-1]
         highest_peak_price = prices[highest_peak_index]
-        print(f"Selling at {highest_peak_price}")
+        print(f"Sell at {highest_peak_price}")
 
         # Implement your order placement logic here
         # Example:
-        service.place_order(symbol, "sell", highest_peak_price, quantity)
+        #service.place_order(symbol, "sell", highest_peak_price, quantity)
 
 if __name__ == "__main__":
 
