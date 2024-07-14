@@ -1,4 +1,4 @@
-# Poloniex bot v0.95 - George W - 2024
+# Poloniex bot v0.96 - George W - 2024
 import hashlib
 import urllib
 import urllib.parse
@@ -13,7 +13,7 @@ def convert_scientific_to_float(input_string):
     import re
 
     def sci_to_float(match):
-        return f"{float(match.group()):.10f}"
+        return f"{float(match.group()):.8f}"
 
     # Regular expression to find scientific notation
     sci_notation_pattern = re.compile(r'-?\d+(\.\d+)?[eE][+-]?\d+')
@@ -31,12 +31,12 @@ padding_token = '<unk>'
 model_file = "model.dat"
 n = 3
 
-access_key = ""
-secret_key = ""
+access_key = "MTJFFVHR-IV51FBEU-HC5CIL23-SQ41HD0X"
+secret_key = "6016f19cf8b9f4d85b99533127c1f896bfc553bd3e1070ffe39420ae28fb7268d7ed0e5ada9d2e06674c51c797762b66a624cb6f1be06815f74be73ef578503f"
 
 symbol = "BTC_USDT"
-quantity = 10
-amount = 0.000016
+quantity = 5
+amount = 0.000005
 limit_trade_history = 1000
 amount = convert_scientific_to_float(str(amount))
 class SDK:
@@ -114,7 +114,10 @@ class SDK:
             "quantity": str(quantity),
             "clientOrderId": "",
         }
-        print(str(amount))
+        print("Price:", str(price))
+        print("Amount:", str(amount))
+        print("Quantity:", str(quantity))
+
         headers = {"Content-Type": "application/json"}
         response = self.sign_req(host, path, method, params, headers)
         print(f"Order {side} placed at price {price}")
