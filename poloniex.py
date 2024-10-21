@@ -73,41 +73,44 @@ def predict(model, data, min_value, max_value):
 
 # Main Execution
 if __name__ == "__main__":
-    # Fetch Data
-    sdk = PoloniexSDK()
-    prices = sdk.get_trade_history("BTC_USDT", 1000)
+    while True:
+        # Fetch Data
+        sdk = PoloniexSDK()
+        prices = sdk.get_trade_history("BTC_USDT", 1000)
 
-    # Preprocess Data
-    closing_prices = np.array([float(price['price']) for price in prices])
-    scaled_prices, min_value, max_value = manual_min_max_scaler(closing_prices)
+        # Preprocess Data
+        closing_prices = np.array([float(price['price']) for price in prices])
+        scaled_prices, min_value, max_value = manual_min_max_scaler(closing_prices)
 
-    seq_length = 10
-    sequences = create_sequences(scaled_prices, seq_length)
-    X = sequences[:, :-1]  # All but last column
-    y = sequences[:, -1]   # Last column (target)
+        seq_length = 10
+        sequences = create_sequences(scaled_prices, seq_length)
+        X = sequences[:, :-1]  # All but last column
+        y = sequences[:, -1]   # Last column (target)
 
-    # Define Model
-    input_size = 1  # Price at each time step
-    hidden_size = 64
-    model = PricePredictionModel(input_size, hidden_size)
+        # Define Model
+        input_size = 1  # Price at each time step
+        hidden_size = 64
+        model = PricePredictionModel(input_size, hidden_size)
 
-    # Train Model
-    train_model(model, X, y)
-    
-    # Display the last five prices
-    print("Last five closing prices:")
-    print(closing_prices[-5:])
-    
-    # Make Predictions
-    latest_data = scaled_prices[-seq_length:]  # Use the last seq_length prices
-    predicted_price = predict(model, latest_data, min_value, max_value)
-    print(f'Predicted price: {predicted_price[-1][0]:.4f}')
+        # Train Model
+        train_model(model, X, y)
+        
+        # Display the last five prices
+        print("Last five closing prices:")
+        print(closing_prices[-5:])
+        
+        # Make Predictions
+        latest_data = scaled_prices[-seq_length:]  # Use the last seq_length prices
+        predicted_price = predict(model, latest_data, min_value, max_value)
+        print(f'Predicted price: {predicted_price[-1][0]:.4f}')
 
-    # Determine if the price is going up or down
-    last_actual_price = closing_prices[-1]
-    predicted_price_value = predicted_price[-1][0]
+        # Determine if the price is going up or down
+        last_actual_price = closing_prices[-1]
+        predicted_price_value = predicted_price[-1][0]
 
-    if predicted_price_value > last_actual_price:
-        print("The predicted price is going up.")
-    else:
-        print("The predicted price is going down.")
+        if predicted_price_value > last_actual_price:
+            print("The predicted price is going up.")
+        else:
+            print("The predicted price is going down.")
+        input("Press enter to continue.")
+        print()
