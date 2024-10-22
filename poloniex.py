@@ -63,13 +63,26 @@ def train_model(model, X, y, epochs=100, batch_size=32):
             print(f'Epoch [{epoch + 1}/{epochs}], Loss: {loss.item():.4f}')
 
 # 5. Making Predictions
-def predict(model, data, min_value, max_value):
+def predict(model, data, min_value, max_value, steps=5):
     model.eval()
-    with torch.no_grad():
-        data_tensor = torch.FloatTensor(data).view(-1, seq_length, input_size)
-        predicted = model(data_tensor)
-        # Inverse scaling
-        return predicted.numpy() * (max_value - min_value) + min_value
+    predictions = []
+    current_data = torch.FloatTensor(data).view(-1, seq_length, input_size)  # Convert to tensor
+
+    for _ in range(steps):
+        with torch.no_grad():
+            # Make the prediction
+            predicted = model(current_data)
+            predicted_price = predicted.numpy()[0, 0]  # Get the predicted value
+            
+            # Inverse scale the predicted price
+            predicted_price_actual = predicted_price * (max_value - min_value) + min_value
+            predictions.append(predicted_price_actual)  # Append the predicted price
+            
+            # Prepare new input for the next step
+            new_input = torch.FloatTensor([predicted_price]).view(1, 1, input_size)  # Wrap in a list
+            current_data = torch.cat((current_data[:, 1:, :], new_input), dim=1)  # Update the input sequence
+
+    return np.array(predictions)
 
 # Main Execution
 if __name__ == "__main__":
@@ -99,14 +112,17 @@ if __name__ == "__main__":
         print("Last five closing prices:")
         print(closing_prices[-5:])
         
-        # Make Predictions
+        # Make Predictions for 5 steps into the future
         latest_data = scaled_prices[-seq_length:]  # Use the last seq_length prices
-        predicted_price = predict(model, latest_data, min_value, max_value)
-        print(f'Predicted price: {predicted_price[-1][0]:.4f}')
+        predicted_prices = predict(model, latest_data, min_value, max_value, steps=5)
+        
+        print("Predicted prices for the next 5 steps:")
+        for i, price in enumerate(predicted_prices):
+            print(f'Step {i + 1}: {price:.4f}')
 
         # Determine if the price is going up or down
         last_actual_price = closing_prices[-1]
-        predicted_price_value = predicted_price[-1][0]
+        predicted_price_value = predicted_prices[-1]
 
         if predicted_price_value > last_actual_price:
             print("The predicted price is going up.")
